@@ -1,0 +1,89 @@
+@import 'compass/reset';
+
+
+*{
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, p{
+  line-height: 1.6em;
+  // letter-spacing: 0.05em;
+}
+
+h1, h2, h3, h4{
+  color: #333;
+}
+
+p{
+  color: #545454;
+}
+
+body{
+  background: #ECEDEC;
+}
+
+.bg{
+  background-position: center;
+  background-size: cover;
+}
+
+.main-content{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  // bottom: 0px;
+  left: 220px;
+}
+
+.date{
+  font-size: 12px;
+  color: #999;
+}
+
+.fade-appear{
+  opacity: .01;
+}
+
+.fade-appear.fade-appear-active{
+  transition: opacity .5s ease-in;
+  opacity: 1;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.float-right{
+  float: right;
+}
+
+.float-left{
+  float: left;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1; /*For IE 6&7 only*/
+}
+
+// font
+.fa-tags{
+  color: #999;
+  margin-right: 12px;
+}

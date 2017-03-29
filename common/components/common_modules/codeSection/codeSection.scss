@@ -1,0 +1,39 @@
+.codeSection{
+  background: #272C34 !important;
+  overflow: scroll;
+  white-space: nowrap;
+  *{
+    color: rgba(255,255,255,.85);
+    display: inline-block;
+    font-family: Inconsolata,Menlo,Monaco,Consolas,"Courier New",monospace;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5em
+  }
+  .purple{
+    color: #C577DA;
+  }
+  .blue{
+    color: #32AAEB;
+  }
+  .lred{
+    color: #E76C77;
+  }
+  .red{
+    color: #BA5049;
+  }
+  .lgreen{
+    color: #44B6B8;
+  }
+  .green{
+    color: #94C37E;
+  }
+  .yellow{
+    color: #E9BB69;
+  }
+  .orange{
+    color: #D69A6B;
+  }
+}

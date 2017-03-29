@@ -1,0 +1,38 @@
+.article{
+  max-width: 1170px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  padding: 48px 0px;
+  .content{
+    flex: 6;
+    padding: 12px;
+    width: 70.58%;
+    // background: rgba(0,0,0,.1);
+    .banner{
+      width: 100%;
+      height: auto;
+    }
+    section{
+      width: 100%;
+      position: relative;
+      background: #fff;
+      padding: 48px;
+
+      img{
+        width: 100%;
+        height: auto;
+        margin: 36px 0px;
+      }
+
+    }
+  }
+  .recommon{
+    flex: 2.5;
+    padding: 12px;
+    .fixTop{
+      position: fixed;
+    }
+  }
+}

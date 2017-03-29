@@ -1,0 +1,16 @@
+.adItem{
+  margin-bottom: 24px;
+  .paddingBottom{
+    width: 100%;
+    padding-bottom: 75%;
+    position: relative;
+  }
+  img{
+    width: 100%;
+    height: auto;
+  }
+  .adContent{
+    background: #fff;
+    padding: 12px;
+  }
+}

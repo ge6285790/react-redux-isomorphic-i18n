@@ -1,0 +1,11 @@
+.tag{
+  color: #ddd;
+  a{
+    color: #999;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    &:hover{
+      color: #666;
+    }
+  }
+}

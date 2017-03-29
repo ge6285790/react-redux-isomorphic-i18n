@@ -1,0 +1,191 @@
+$width: 100%;
+.articles{
+  max-width: 1170px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  padding: 60px 0px 48px 0px;
+  .articles-filter{
+    position: fixed;
+    top: 0px;
+    left: 220px;
+    right: 0px;
+    background: #fff;
+    z-index: 2;
+    line-height: 24px;
+    .filter-tags{
+      transition: 0.3s ease;
+      position: absolute;
+      width: 100%;
+      top: 100%;
+      background: #dfdfdf;
+      padding: 0px 24px;
+      line-height: 20px;
+      color: #545454;
+      transform: translateY(-100%);
+      &[data-active="true"]{
+        transform: translateY(0%);
+      }
+      .filter-tag{
+        padding: 2px 6px;
+        margin: 3px 0px;
+        display: inline-block;
+        cursor: pointer;
+        transition: 0.3s ease;
+        &:hover{
+          background: #252525;
+          color: #ccc;
+        }
+        span{
+          transition: 0.3s ease;
+          margin: 0px 0px 0px 0px;
+          padding: 0px 0px 0px 0px;
+          width: 0px;
+          overflow: hidden;
+          display: inline-block;
+          vertical-align: top;
+        }
+        &[data-active="true"]{
+          background: #252525;
+          color: #ccc;
+          &:hover{
+            span{
+              width: 17px;
+              margin: 0px 0px 0px 6px;
+              padding: 0px 0px 0px 6px;
+              border-left: 1px solid #ccc;
+            }
+          }
+        }
+      }
+      .close{
+        cursor: pointer;
+        padding: 0px 12px;
+        i{
+          transform: translateY(0px);
+          transition: 0.3s ease;
+          color: #000;
+        }
+        &:hover{
+          i{
+            transform: translateY(-3px);
+          }
+        }
+      }
+    }
+    ul{
+      padding: 0px 12px;
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      li{
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 10px 12px;
+        border-bottom: 1px solid #a9a9a9;
+        border-top: 1px solid transparent;
+        border-right: 1px solid transparent;
+        border-left: 1px solid transparent;
+        transition: 0.3s ease;
+        cursor: pointer;
+        span{
+          color: #a9a9a9;
+          transition: 0.3s ease;
+          font-size: 14px;
+          padding: 3px;
+        }
+        &.filter-btn{
+          border: 1px solid #252525;
+          // background: #eee;
+          i{
+            margin-left: 0px;
+            margin-right: 0px;
+            color: #ddd;
+            transition: 0.3s ease;
+            width: 0px;
+            overflow: hidden;
+            padding: 3px 0px;
+            vertical-align: top;
+          }
+          span{
+            color: #666;
+            &:hover{
+              color: #fff;
+            }
+          }
+          &:hover, &[data-active="true"]{
+            background: #252525;
+            i{
+              color: #fff;
+              width: 17px;
+              margin-left: 6px;
+              margin-right: 6px;
+              // width: auto;
+            }
+            span{
+              color: #fff;
+
+            }
+          }
+        }
+        &:hover, &[data-active="true"]{
+          border-bottom: 1px solid #333;
+          border-top: 1px solid #333;
+          // border-right: 1px solid #333;
+          // border-left: 1px solid #333;
+          span{
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+  .column{
+    width: $width/3;
+    .item{
+      flex: 3;
+      padding: 12px;
+      position: relative;
+      img{
+        width: 100%;
+        height: auto;
+      }
+      .paddingBottom{
+        width: 100%;
+        padding-bottom: 60%;
+      }
+      .itemContent{
+        background: #fff;
+        padding: 12px;
+        .itemInfo{
+          margin: 12px 0px 0px 0px;
+          .date, .tag{
+            font-size: 12px;
+            float: right;
+            color: #999;
+          }
+          .tags{
+            float: left;
+            i.fa{
+              font-size: 12px;
+              vertical-align: top;
+            }
+          }
+        }
+      }
+    }
+  }
+  .tag{
+    color: #ddd;
+    a{
+      color: #999;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      &:hover{
+        color: #666;
+      }
+    }
+
+  }
+}
