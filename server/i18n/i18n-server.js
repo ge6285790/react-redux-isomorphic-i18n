@@ -10,7 +10,8 @@ i18n.use(Backend).use(LanguageDetector).init({
 
   // have a common namespace used around the full app
   ns: [
-    'common', 'counter',
+    'common',
+    'home',
   ],
   defaultNS: 'common',
 

@@ -7,7 +7,7 @@ module.exports = {
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
-    `${path.resolve(__dirname, 'common')}/main`,
+    `${path.resolve(__dirname, 'client')}/index`,
   ],
   output: {
     path: '/asset/js/bundle/',
@@ -18,16 +18,23 @@ module.exports = {
   reslove: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      common: './common/'
-    }
+      common: './common/',
+    },
   },
   module: {
     loaders: [
       {
         test: /\.js?$/,
         loader: 'babel',
-        include: path.resolve(__dirname, 'common'),
+        include: [
+          path.resolve(__dirname, 'client'),
+          path.resolve(__dirname, 'common'),
+        ],
         exclude: /node_modules/,
+        // query: {
+        //     presets: ["es2015", "stage-0", "react"],
+        //     plugins: ["transform-decorators-legacy"],
+        // }
       },
       {
         test: /\.json?$/,
@@ -48,8 +55,15 @@ module.exports = {
       },
       {
         test: /\.js?$/,
-        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'], //stage-0 use for class static needsApi
-        include: path.resolve(__dirname, 'common'),
+        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0,plugins[]=transform-decorators-legacy'], //stage-0 use for class static needsApi
+        include: [
+          path.resolve(__dirname, 'client'),
+          path.resolve(__dirname, 'common'),
+        ],
+        // query: {
+        //     presets: ["es2015", "stage-0", "react"],
+        //     plugins: ["transform-decorators-legacy"],
+        // }
       },
     ],
   },
