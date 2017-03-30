@@ -29,6 +29,7 @@ function i18nResource(locale, locales) {
   // }
   let obj;
   for (const val of locales) {
+    console.log('val', val);
     const resource = i18n.getResourceBundle(locale, val);
     obj = merge(obj, resource);
   }
@@ -37,6 +38,7 @@ function i18nResource(locale, locales) {
 
 export default function isomorphic(req, res) {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+    console.log('---', req);
     if (error) {
       res.send(500, error.message);
     } else if (redirectLocation) {
@@ -47,13 +49,12 @@ export default function isomorphic(req, res) {
       // console.log('req', req);
       // i18n
       let locale = (req.locale.indexOf('zh') === -1 && req.locale.indexOf('en') === -1) ? 'en' : req.locale;
-      if (undefined !== req.cookies.kyleI18nextLang) {
-        locale = req.cookies.kyleI18nextLang;
+      if (undefined !== req.cookies.isomorphicI18nextLang) {
+        locale = req.cookies.isomorphicI18nextLang;
       } else {
-        res.cookie('kyleI18nextLang', locale);
+        res.cookie('isomorphicI18nextLang', locale);
       }
       renderProps.params.locale = locale;
-      console.log('req', req, components.locales);
       const resources = (undefined !== components.locales) ? i18nResource(locale, components.locales) : i18nResource(locale, ['common']);
       const i18nClient = { locale, resources };
       const i18nServer = i18n.cloneInstance();
@@ -74,7 +75,7 @@ export default function isomorphic(req, res) {
           res.status(200).send(page);
         });
     } else {
-      res.redirect('/404');
+      res.redirect('/oops');
       // res.send(404, 'Not found');
     }
   });

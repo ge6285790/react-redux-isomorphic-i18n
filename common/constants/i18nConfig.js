@@ -1,6 +1,4 @@
-import i18n from 'i18next';
-
-i18n.init({
+export default {
   whitelist: [
     'en', 'zh',
   ],
@@ -10,12 +8,15 @@ i18n.init({
   ns: [
     'common',
     'home',
+    'notFound',
+    'portfolio',
+    'menu',
   ],
   defaultNS: 'common',
+
+  debug: false,
 
   interpolation: {
     escapeValue: false, // not needed for react!!
   },
-});
-
-export default i18n;
+};

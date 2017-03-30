@@ -12,8 +12,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-        youtubeAction: bindActionCreators(youtubeAction, dispatch)
-    }
+      youtubeAction: bindActionCreators(youtubeAction, dispatch),
+    },
   };
 }
 
@@ -22,10 +22,10 @@ class TestApi extends Component {
     youtubeAction.searchInit,
   ];
   constructor(props) {
-      super(props);
-      this.state = {
-        searchText: '',
-      }
+    super(props);
+    this.state = {
+      searchText: '',
+    };
   }
   searchTextUpdate(e) {
     const searchText = e.target.value;

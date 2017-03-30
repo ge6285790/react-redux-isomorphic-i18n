@@ -16,7 +16,7 @@ export default function () {
   return (
     <Route path="/" component={Main}>
       <IndexRoute component={Home} />
-      {/* <Route path="/404" component={NotFound} /> */}
+      <Route path="/oops" component={NotFound} />
       <Route path="/repos" component={Home} />
       <Route path="/article" component={Articles}>
         <Route path="/article/:id" component={Article} />

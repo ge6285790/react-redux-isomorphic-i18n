@@ -15,8 +15,17 @@ const PORT = process.env.PORT || 7070;
 init(app);
 
 
-app.get('*', (req, res) => {
-  isomorphic(req, res);
+app.get('/favicon.ico', (req, res) => {
+  console.log('aaaa');
+  req.send();
+});
+
+app.get('*', (req, res, next) => {
+  // if (req.url.indexOf('/api') !== -1 || req.url.indexOf('/favicon.ico') !== -1) {
+    // console.log('==')
+    isomorphic(req, res);
+  // }
+  // next();
 });
 
 app.listen(PORT, () => {

@@ -87,3 +87,25 @@ body{
   color: #999;
   margin-right: 12px;
 }
+
+.i18n-switcher{
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  div{
+    width: 36px;
+    height: 36px;
+    margin: 6px 0px;
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 36px;
+    text-align: center;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    transition: 0.3s ease;
+    cursor: pointer;
+    &:hover{
+      background: rgba(0,0,0,.8);
+    }
+  }
+}

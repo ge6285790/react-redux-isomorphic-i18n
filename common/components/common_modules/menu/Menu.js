@@ -1,8 +1,10 @@
 import React from 'react';
 import isNode from 'detect-node';
+import { translate } from 'react-i18next';
 
 if (!isNode) { require('./menu.scss'); }
 
+@translate(['common'], { wait: true })
 class Menu extends React.Component {
 
   renderMenu() {
