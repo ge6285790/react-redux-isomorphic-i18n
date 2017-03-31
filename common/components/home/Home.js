@@ -11,7 +11,7 @@ import DocumentMeta from 'react-document-meta';
 // import DocumentMeta from 'react-document-meta';
 import { meta as metaObj } from '../../constants/meta';
 
-if (!isNode) { require('./home.scss'); }
+// if (!isNode) { require('./home.scss'); }
 
 function mapStateToProps() {
   return {};
@@ -44,6 +44,7 @@ class Home extends Component {
 
   render() {
     // const { other } = this.state.data;
+    const style = require('./home.scss');
     const { t } = this.props;
     return (
       <div className="home">

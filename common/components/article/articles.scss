@@ -1,4 +1,4 @@
-$width: 100%;
+// $width: 100%;
 .articles{
   max-width: 1170px;
   width: 100%;
@@ -142,7 +142,8 @@ $width: 100%;
     }
   }
   .column{
-    width: $width/3;
+    // width: $width/3;
+    width: 33.33333%;
     .item{
       flex: 3;
       padding: 12px;

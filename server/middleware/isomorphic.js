@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { merge } from 'lodash';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n/i18n-server';
 
@@ -35,8 +34,22 @@ function i18nResource(locale, locales) {
   }
   return obj;
 }
+var path = require('path');
+var rootDir = path.resolve(__dirname, '../..');
+global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../webpack-isomorphic-tools'))
+  .development(__DEVELOPMENT__)
+  .server(rootDir, function() {
+    require('../index');
+  });
 
 export default function isomorphic(req, res) {
+  if (__DEVELOPMENT__) {
+    // Do not cache webpack stats: the script file would change since
+    // hot module replacement is enabled in the development env
+    webpackIsomorphicTools.refresh();
+  }
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.send(500, error.message);
@@ -60,6 +73,8 @@ export default function isomorphic(req, res) {
 
       fetchComponentsData(store.dispatch, components, renderProps.params)
         .then(() => {
+          const assets = webpackIsomorphicTools.assets();
+          console.log('assets', assets);
           const initView = renderToString((
             <I18nextProvider i18n={i18nServer}>
               <Provider store={store}>
@@ -67,9 +82,32 @@ export default function isomorphic(req, res) {
               </Provider>
             </I18nextProvider>
           ));
+          // let style = '';
+          const A = (props) => {
+            return <style>{props.item}</style>
+          }
+          const Style = () => {
+            // render() {
+              console.log('!')
+              const array = Object.keys(assets.assets).map((styleKey, key) => {
+                console.log(key, styleKey, assets.assets[styleKey], assets.assets[styleKey]['_style']);
+                // style += assets.assets[styleKey]['_style'];
+                return(
+                  <A item={assets.assets[styleKey]['_style']} />
+
+
+                );
+                // <link href={assets.styles[style]} key={key} media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8"/>
+              });
+              console.log(array);
+              return array;
+            // }
+          }
+          const style = Style();
+          console.log('style', style);
           // console.log(initView);
           const state = store.getState();
-          return indexTemplate(req.url, initView, state, i18nClient);
+          return indexTemplate(req.url, initView, state, i18nClient, style);
         })
         .then((page) => {
           res.status(200).send(page);
