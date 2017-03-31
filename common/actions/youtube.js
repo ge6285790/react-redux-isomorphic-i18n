@@ -1,5 +1,5 @@
 import * as types from '../constants/actionTypes';
-import * as youtubeApi from '../api/youtube';
+import * as youtubeApi from '../apis/youtube';
 
 export function searchInit() {
   return {

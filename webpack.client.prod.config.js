@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     app: [
       'babel-polyfill',
-      `${path.resolve(__dirname, 'common')}/main`,
+      `${path.resolve(__dirname, 'client')}/index`,
     ],
   },
   output: {
@@ -20,10 +20,13 @@ module.exports = {
       {
         test: /\.js?$/,
         loader: 'babel',
-        include: path.resolve(__dirname, 'common'),
+        include: [
+          path.resolve(__dirname, 'client'),
+          path.resolve(__dirname, 'common'),
+        ],
         exclude: /node_modules/,
         query: {
-          presets: [['es2015', { 'modules': false }], 'stage-0', 'react'],
+          presets: [['es2015', { modules: false }], 'stage-0', 'react'],
           plugins: ['transform-decorators-legacy'],
         },
       },

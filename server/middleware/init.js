@@ -9,7 +9,9 @@ import i18nMiddleware from 'i18next-express-middleware';
 import i18n from '../i18n/i18n-server';
 
 export default function (app) {
+  // console.log(__dirname + '/public', path.resolve('/public'));
   const rootPath = path.resolve('public');
+  // const rootPath = __dirname + '/public';
   app.use(compression());
   app.use(helmet());
   app.use(i18nMiddleware.handle(i18n));
@@ -27,7 +29,6 @@ export default function (app) {
   });
 
   // webpack HMR
-  
 
   if (process.env.NODE_ENV === 'development') {
     const webpack = require('webpack');

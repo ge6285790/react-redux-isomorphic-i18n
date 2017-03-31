@@ -11,6 +11,7 @@ export default {
     'notFound',
     'portfolio',
     'menu',
+    'article',
   ],
   defaultNS: 'common',
 

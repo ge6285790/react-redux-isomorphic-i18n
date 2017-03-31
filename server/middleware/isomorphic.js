@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { merge } from 'lodash';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n/i18n-server';
 
@@ -29,7 +30,6 @@ function i18nResource(locale, locales) {
   // }
   let obj;
   for (const val of locales) {
-    console.log('val', val);
     const resource = i18n.getResourceBundle(locale, val);
     obj = merge(obj, resource);
   }
@@ -38,7 +38,6 @@ function i18nResource(locale, locales) {
 
 export default function isomorphic(req, res) {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-    console.log('---', req);
     if (error) {
       res.send(500, error.message);
     } else if (redirectLocation) {
@@ -46,7 +45,6 @@ export default function isomorphic(req, res) {
     } else if (renderProps) {
       const components = renderProps.components[renderProps.components.length - 1].WrappedComponent;
 
-      // console.log('req', req);
       // i18n
       let locale = (req.locale.indexOf('zh') === -1 && req.locale.indexOf('en') === -1) ? 'en' : req.locale;
       if (undefined !== req.cookies.isomorphicI18nextLang) {
@@ -59,15 +57,17 @@ export default function isomorphic(req, res) {
       const i18nClient = { locale, resources };
       const i18nServer = i18n.cloneInstance();
       i18nServer.changeLanguage(locale);
+
       fetchComponentsData(store.dispatch, components, renderProps.params)
         .then(() => {
           const initView = renderToString((
-            <Provider store={store}>
-              <I18nextProvider i18n={i18nServer}>
+            <I18nextProvider i18n={i18nServer}>
+              <Provider store={store}>
                 <RouterContext {...renderProps} />
-              </I18nextProvider>
-            </Provider>
+              </Provider>
+            </I18nextProvider>
           ));
+          // console.log(initView);
           const state = store.getState();
           return indexTemplate(req.url, initView, state, i18nClient);
         })
@@ -76,7 +76,6 @@ export default function isomorphic(req, res) {
         });
     } else {
       res.redirect('/oops');
-      // res.send(404, 'Not found');
     }
   });
 }

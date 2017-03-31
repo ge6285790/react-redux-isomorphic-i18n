@@ -17,15 +17,19 @@ function mapDispatchToProps() {
   return {};
 }
 
-@translate(['common'], { wait: true })
+@translate(['common', 'menu'])
 class Main extends Component {
+
+  // static locales = [
+  //   'common',
+  //   'menu',
+  // ];
 
   static needsApi = [];
 
   constructor(props) {
     super(props);
     const { t } = props;
-    console.log(t, t('menu.home'), t('common.text'));
     this.state = {
       data: {
         menu: [
@@ -68,9 +72,7 @@ class Main extends Component {
 
   render() {
     const { menu } = this.state.data;
-    const { t } = this.props;
 
-    console.log(t('menu.home'), t('common.text'));
     return (
       <div>
         <DocumentMeta {...this.meta} />

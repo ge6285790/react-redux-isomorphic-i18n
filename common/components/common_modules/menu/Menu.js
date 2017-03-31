@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 
 if (!isNode) { require('./menu.scss'); }
 
-@translate(['common'], { wait: true })
+// @translate(['common'], { wait: true })
 class Menu extends React.Component {
 
   renderMenu() {
@@ -41,5 +41,14 @@ class Menu extends React.Component {
     );
   }
 }
+
+Menu.defaultProps = {
+  t: () => {},
+};
+
+Menu.propTypes = {
+  data: React.PropTypes.array.isRequired,
+  // children: React.PropTypes.object.isRequired,
+};
 
 export default Menu;

@@ -55,7 +55,7 @@ module.exports = {
       },
       {
         test: /\.js?$/,
-        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0,plugins[]=transform-decorators-legacy'], //stage-0 use for class static needsApi
+        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0,plugins[]=transform-decorators-legacy'], // stage-0 use for class static needsApi
         include: [
           path.resolve(__dirname, 'client'),
           path.resolve(__dirname, 'common'),

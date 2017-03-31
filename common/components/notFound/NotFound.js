@@ -21,7 +21,7 @@ function mapDispatchToProps() {
   return {};
 }
 
-@translate(['common'], { wait: true })
+@translate(['common', 'notFound'])
 class NotFound extends Component {
 
   static locales = [

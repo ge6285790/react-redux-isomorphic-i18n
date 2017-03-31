@@ -1,9 +1,12 @@
 // 資料處理掛件
 import serialize from 'serialize-javascript';
+import DocumentMeta from 'react-document-meta';
 
 export default function (url, html, initialState, i18nClient) {
   const js = (process.env.NODE_ENV === 'development') ? '/asset/js/bundle/bundle.js' : '/asset/js/bundle/bundle.min.js';
   const css = (process.env.NODE_ENV === 'development') ? '' : '<link rel=stylesheet type="text/css" href="/asset/css/bundle/bundle.min.css">';
+  const meta = DocumentMeta.renderAsHTML();
+  console.log('meta', meta);
   return (
     `<!doctype html>
       <html lang='utf-8'>
@@ -14,6 +17,7 @@ export default function (url, html, initialState, i18nClient) {
             <meta name='descripti2efon' content=''>
             <link rel='shortcut icon' href='/asset/img/favicon.ico' type='image/x-icon' />
             <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' />
+            ${meta}
             ${css}
             <title>isomorphic</title>
         </head>

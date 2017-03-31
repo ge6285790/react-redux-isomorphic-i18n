@@ -21,7 +21,8 @@ function mapDispatchToProps() {
   return {};
 }
 
-@translate(['common'], { wait: true })
+// @translate(['common'], { wait: true })
+@translate(['common', 'home'])
 class Home extends Component {
 
   static locales = [

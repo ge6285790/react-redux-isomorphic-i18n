@@ -21,7 +21,7 @@ function mapDispatchToProps() {
   return {};
 }
 
-@translate(['common'], { wait: true })
+@translate(['common', 'portfolio'])
 class Portfolio extends Component {
 
   static locales = [
@@ -54,7 +54,7 @@ class Portfolio extends Component {
         </div>
       );
     }
-    return this.props.children;
+    return '';
   }
 
   render() {
@@ -65,11 +65,12 @@ class Portfolio extends Component {
 
 Portfolio.defaultProps = {
   t: () => {},
+  children: () => {},
 };
 
 Portfolio.propTypes = {
   t: React.PropTypes.func.isRequired,
-  children: React.PropTypes.object.isRequired,
+  // children: React.PropTypes.object.isRequired,
   params: React.PropTypes.object.isRequired,
 };
 

@@ -15,13 +15,12 @@ i18nClient.addResourceBundle(i18n.locale, 'common', i18n.resources, true);
 class App extends Component {
   render() {
     const { store, browserHistory, renderProps } = this.props;
-    // console.log('renderProps', [...renderProps]);
     return (
-      <Provider store={store}>
-        <I18nextProvider i18n={i18nClient}>
+      <I18nextProvider i18n={i18nClient}>
+        <Provider store={store}>
           <Router history={browserHistory} {...renderProps} />
-        </I18nextProvider>
-      </Provider>
+        </Provider>
+      </I18nextProvider>
     );
   }
 }
