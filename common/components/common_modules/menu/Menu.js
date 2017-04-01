@@ -3,21 +3,20 @@ import isNode from 'detect-node';
 
 if (!isNode) { require('./menu.scss'); }
 
+// @translate(['common'], { wait: true })
 class Menu extends React.Component {
 
   renderMenu() {
     const { data } = this.props;
-    return data.map((item, i) => {
-      return (
-        <li className="menu-side-link" key={new Date() + i}>
-          <a href={item.link}>
-            <i className={item.iconClassName} />
-            {/* <span>Home</span> */}
-            <span>{item.title}</span>
-          </a>
-        </li>
-      );
-    });
+    return data.map((item, i) => (
+      <li className="menu-side-link" key={new Date() + i}>
+        <a href={item.link}>
+          <i className={item.iconClassName} />
+          {/* <span>Home</span> */}
+          <span>{item.title}</span>
+        </a>
+      </li>
+    ));
   }
 
   render() {
@@ -39,5 +38,14 @@ class Menu extends React.Component {
     );
   }
 }
+
+Menu.defaultProps = {
+  t: () => {},
+};
+
+Menu.propTypes = {
+  data: React.PropTypes.array.isRequired,
+  // children: React.PropTypes.object.isRequired,
+};
 
 export default Menu;

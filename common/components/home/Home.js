@@ -1,42 +1,42 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import update from 'react-addons-update';
+// import update from 'react-addons-update';
 import isNode from 'detect-node';
 import DocumentMeta from 'react-document-meta';
-import LazyLoad from 'react-lazyload';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import equal from 'deep-equal';
+// import LazyLoad from 'react-lazyload';
+// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+// import equal from 'deep-equal';
 // import DocumentMeta from 'react-document-meta';
 import { meta as metaObj } from '../../constants/meta';
-import ItemBox from '../common_modules/itemBox/ItemBox';
 
-if (!isNode) { require('./home.scss'); }
+// if (!isNode) { require('./home.scss'); }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {};
 }
 
-@translate(['common'], { wait: true })
+// @translate(['common'], { wait: true })
+@translate(['common', 'home'])
 class Home extends Component {
 
   static locales = [
     'common',
-    'home'
+    'home',
+    'menu',
   ];
 
-  // static needsApi = [
-  //
-  // ];
+  static needsApi = [];
 
   constructor(props) {
     super(props);
     this.state = {};
+    this.meta = metaObj;
   }
 
   componentDidMount() {
@@ -44,15 +44,24 @@ class Home extends Component {
 
   render() {
     // const { other } = this.state.data;
+    require('./home.scss');
     const { t } = this.props;
     return (
       <div className="home">
         <DocumentMeta {...this.meta} />
-        aa
         {t('home.content')}
       </div>
     );
   }
 }
+
+Home.defaultProps = {
+  t: () => {},
+};
+
+Home.propTypes = {
+  t: React.PropTypes.func.isRequired,
+  // children: React.PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

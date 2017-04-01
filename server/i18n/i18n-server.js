@@ -1,25 +1,10 @@
 import i18n from 'i18next';
 import Backend from 'i18next-node-fs-backend';
 import { LanguageDetector } from 'i18next-express-middleware';
+import i18nConfig from '../../common/constants/i18nConfig';
 
 i18n.use(Backend).use(LanguageDetector).init({
-  whitelist: [
-    'en', 'zh',
-  ],
-  fallbackLng: 'en',
-
-  // have a common namespace used around the full app
-  ns: [
-    'common',
-    'home',
-  ],
-  defaultNS: 'common',
-
-  debug: false,
-
-  interpolation: {
-    escapeValue: false, // not needed for react!!
-  },
+  ...i18nConfig,
 
   backend: {
     loadPath: 'locales/{{lng}}/{{ns}}.json',

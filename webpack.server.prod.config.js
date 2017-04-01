@@ -12,7 +12,7 @@ function getExternals() {
 
 module.exports = {
   target: 'node',
-  entry: path.join(process.cwd(), '/server'),
+  entry: path.join(process.cwd(), 'server/index'),
   output: {
     path: path.join(process.cwd(), 'build'),
     filename: 'server.js',
@@ -38,9 +38,9 @@ module.exports = {
   },
   plugins: [
     new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
+    // new webpack.LoaderOptionsPlugin({
+    //   minimize: true,
+    //   debug: false,
+    // }),
   ],
 };

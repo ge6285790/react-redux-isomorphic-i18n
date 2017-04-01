@@ -1,78 +1,91 @@
+require('babel-polyfill');
+
+// Webpack config for creating the production bundle.
 var path = require('path');
 var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
+var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var strip = require('strip-loader');
+
+var projectRootPath = path.resolve(__dirname);
+var assetsPath = path.resolve(projectRootPath, './public/asset');
+
+// https://github.com/halt-hammerzeit/webpack-isomorphic-tools
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
 
 module.exports = {
+  // devtool: 'source-map',
+  context: path.resolve(__dirname),
   entry: {
-    app: [
+    'main': [
       'babel-polyfill',
-      `${path.resolve(__dirname, 'common')}/main`,
-    ],
+      `${path.resolve(__dirname, 'client')}/index`,
+    ]
   },
+  // output: {
+  //   path: assetsPath,
+  //   filename: '[name]-[chunkhash].js',
+  //   chunkFilename: '[name]-[chunkhash].js',
+  //   publicPath: '/dist/'
+  // },
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: '/asset/js/bundle/bundle.min.js',
-    chunkFilename: '/asset/js/bundle/chunk.[id].min.js',
+    path: assetsPath + '/js/bundle/',
+    filename: 'bundle.js',
+    publicPath: assetsPath + '/js/bundle/',
+    chunkFilename: 'chunk.[name].js',
   },
   module: {
-    rules: [
-      {
-        test: /\.js?$/,
-        loader: 'babel',
-        include: path.resolve(__dirname, 'common'),
-        exclude: /node_modules/,
-        query: {
-          presets: [['es2015', { 'modules': false }], 'stage-0', 'react'],
-          plugins: ['transform-decorators-legacy'],
-        },
-      },
-      {
-        test: /\.json?$/,
-        use: 'json-loader',
-      },
-      {
-        test: /\.css|\.scss$/,
-        use: [
-          'style',
-          {
-            loader: 'css',
-            options: {
-              options: { modules: false },
-            },
-          },
-          'sass?outputStyle=expanded&includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib'),
-          'postcss',
-        ],
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: 'url-loader?limit=8192&name=./asset/img/[name].[ext]',
-      },
-      {
-        test: /\.js?$/,
-        use: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'], // stage-0 use for class static needsApi
-        include: path.resolve(__dirname, 'common'),
-      },
-    ],
+    loaders: [
+      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!less') },
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!sass') },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
+    ]
   },
-  resolveLoader: {
-    moduleExtensions: ['-loader'],
+  progress: true,
+  resolve: {
+    // modulesDirectories: [
+    //   'src',
+    //   'node_modules'
+    // ],
+    extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-      options: {
-        postcss: [autoprefixer],
-      },
-    }),
-    new ExtractTextPlugin({
-      filename: './asset/css/bundle/bundle.min.css',
-      allChunks: false,
-    }),
-  ],
-};
+    new CleanPlugin([assetsPath], { root: projectRootPath }),
 
-// 'webpack': '^1.14.0',
+    // css files from the extract-text-plugin loader
+    new ExtractTextPlugin('../../css/[name].css', {allChunks: true}),
+    // new ExtractTextPlugin('../../css/[name].css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      },
+
+      __CLIENT__: true,
+      __SERVER__: false,
+      __DEVELOPMENT__: false,
+      __DEVTOOLS__: false
+    }),
+
+    // ignore dev config
+    new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
+
+    // optimizations
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+
+    webpackIsomorphicToolsPlugin
+  ]
+};
