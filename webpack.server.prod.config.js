@@ -38,9 +38,9 @@ module.exports = {
   },
   plugins: [
     new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
+    // new webpack.LoaderOptionsPlugin({
+    //   minimize: true,
+    //   debug: false,
+    // }),
   ],
 };

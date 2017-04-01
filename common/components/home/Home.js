@@ -44,7 +44,7 @@ class Home extends Component {
 
   render() {
     // const { other } = this.state.data;
-    const style = require('./home.scss');
+    require('./home.scss');
     const { t } = this.props;
     return (
       <div className="home">

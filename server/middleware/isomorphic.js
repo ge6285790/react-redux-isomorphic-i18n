@@ -9,7 +9,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n/i18n-server';
 
 // 載入 views template
-import indexTemplate from '../../views/index';
+import Html from '../../views/index';
 
 // React Component 資訊
 import createRoutes from '../../common/routes/routes';
@@ -34,15 +34,17 @@ function i18nResource(locale, locales) {
   }
   return obj;
 }
-var path = require('path');
-var rootDir = path.resolve(__dirname, '../..');
+
+const path = require('path');
+
+const rootDir = path.resolve(__dirname, '../..');
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
-var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../webpack-isomorphic-tools'))
-  .development(__DEVELOPMENT__)
-  .server(rootDir, function() {
-    require('../index');
-  });
+.development(__DEVELOPMENT__)
+.server(rootDir, () => {
+  require('../index');
+});
 
 export default function isomorphic(req, res) {
   if (__DEVELOPMENT__) {
@@ -74,40 +76,15 @@ export default function isomorphic(req, res) {
       fetchComponentsData(store.dispatch, components, renderProps.params)
         .then(() => {
           const assets = webpackIsomorphicTools.assets();
-          console.log('assets', assets);
-          const initView = renderToString((
+          const initView = (
             <I18nextProvider i18n={i18nServer}>
               <Provider store={store}>
                 <RouterContext {...renderProps} />
               </Provider>
             </I18nextProvider>
-          ));
-          // let style = '';
-          const A = (props) => {
-            return <style>{props.item}</style>
-          }
-          const Style = () => {
-            // render() {
-              console.log('!')
-              const array = Object.keys(assets.assets).map((styleKey, key) => {
-                console.log(key, styleKey, assets.assets[styleKey], assets.assets[styleKey]['_style']);
-                // style += assets.assets[styleKey]['_style'];
-                return(
-                  <A item={assets.assets[styleKey]['_style']} />
-
-
-                );
-                // <link href={assets.styles[style]} key={key} media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8"/>
-              });
-              console.log(array);
-              return array;
-            // }
-          }
-          const style = Style();
-          console.log('style', style);
-          // console.log(initView);
+          );
           const state = store.getState();
-          return indexTemplate(req.url, initView, state, i18nClient, style);
+          return `<!doctype html>\n ${renderToString((<Html {...{ url: req.url, html: initView, initialState: state, i18nClient, assets }} />))}`;
         })
         .then((page) => {
           res.status(200).send(page);

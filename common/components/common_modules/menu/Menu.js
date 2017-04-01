@@ -1,6 +1,5 @@
 import React from 'react';
 import isNode from 'detect-node';
-import { translate } from 'react-i18next';
 
 if (!isNode) { require('./menu.scss'); }
 
@@ -9,17 +8,15 @@ class Menu extends React.Component {
 
   renderMenu() {
     const { data } = this.props;
-    return data.map((item, i) => {
-      return (
-        <li className="menu-side-link" key={new Date() + i}>
-          <a href={item.link}>
-            <i className={item.iconClassName} />
-            {/* <span>Home</span> */}
-            <span>{item.title}</span>
-          </a>
-        </li>
-      );
-    });
+    return data.map((item, i) => (
+      <li className="menu-side-link" key={new Date() + i}>
+        <a href={item.link}>
+          <i className={item.iconClassName} />
+          {/* <span>Home</span> */}
+          <span>{item.title}</span>
+        </a>
+      </li>
+    ));
   }
 
   render() {

@@ -57,17 +57,17 @@ reactTransform[1].transforms.push({
 });
 
 module.exports = {
-  devtool: 'inline-source-map',
-  context: path.resolve(__dirname),
+  // devtool: 'inline-source-map',
+  // context: path.resolve(__dirname),
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
     `${path.resolve(__dirname, 'client')}/index`,
   ],
   output: {
-    path: '/asset/js/bundle/',
+    path: '/assets/js/bundle/',
     filename: 'bundle.js',
-    publicPath: '/asset/js/bundle/',
+    publicPath: '/assets/js/bundle/',
     chunkFilename: 'chunk.[name].js',
   },
   // reslove: {
@@ -164,13 +164,18 @@ module.exports = {
     //   'src',
     //   'node_modules'
     // ],
-    extensions: ['', '.json', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx'],
+    alias: {
+      common: './common/',
+    },
   },
   plugins: [
-    // hot reload
+    // hot reloads
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
+    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"development"',
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
