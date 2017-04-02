@@ -12,7 +12,9 @@ function getExternals() {
 
 module.exports = {
   target: 'node',
-  entry: path.join(process.cwd(), 'server/index'),
+  entry: {
+    index: path.join(process.cwd(), 'server/index'),
+  },
   output: {
     path: path.join(process.cwd(), 'build'),
     filename: 'server.js',
@@ -24,20 +26,30 @@ module.exports = {
     __dirname: true,
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['transform-decorators-legacy'],
-        },
-        exclude: /(node_modules)/,
-      },
-    ],
+    loaders: [
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }, {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                query: {
+                    presets: [
+                        "es2015", "react", "stage-0"
+                    ],
+                    plugins: ["transform-decorators-legacy"]
+                },
+                exclude: /(node_modules)/
+            }
+        ]
   },
   plugins: [
     new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
+    new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     // new webpack.LoaderOptionsPlugin({
     //   minimize: true,
     //   debug: false,

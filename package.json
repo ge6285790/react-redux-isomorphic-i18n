@@ -1,7 +1,7 @@
 {
-  "name": "lab",
-  "version": "0.1.0",
-  "description": "lab",
+  "name": "react-redux-isomorphic-i18n",
+  "version": "0.1.1",
+  "description": "react redux isomorphic i18n instance",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -11,9 +11,10 @@
     "react",
     "redux",
     "server-render",
-    "isomorphic"
+    "isomorphic",
+    "i18n"
   ],
-  "author": "kyle cheng",
+  "author": "ge6285790",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ge6285790/react-server-render/issues"
@@ -110,11 +111,13 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node --inspect -r babel-register ./server/index.js",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "webpack",
-    "build:server": "webpack --config webpack.server.config.js",
-    "buildFront": "NODE_ENV=production webpack -p --config webpack.server.prod.config.js && NODE_ENV=production webpack -p --config webpack.client.prod.config.js",
+    "dev": "npm run dev:bin && npm run dev:server",
+    "dev:bin": "NODE_ENV=development node ./bin/server.js",
+    "dev:server": "cross-env NODE_ENV=development node --inspect -r babel-register ./server/index.js",
+    "build": "npm run build:client && npm run build:bin && npm run build:server",
+    "build:bin": "NODE_ENV=production node ./bin/server.js",
+    "build:client": "NODE_ENV=production webpack -p --config webpack.client.prod.config.js",
+    "build:server": "NODE_ENV=production webpack -p --config webpack.server.prod.config.js",
     "test": "jest"
   }
 }
