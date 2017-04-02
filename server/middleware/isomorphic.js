@@ -35,19 +35,9 @@ function i18nResource(locale, locales) {
   return obj;
 }
 
-const path = require('path');
-
-const rootDir = path.resolve(__dirname, '../..');
-global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
-const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../../webpack-isomorphic-tools'))
-.development(__DEVELOPMENT__)
-.server(rootDir, () => {
-  require('../index');
-});
-
 export default function isomorphic(req, res) {
-  if (__DEVELOPMENT__) {
+  // if (__DEVELOPMENT__) {
+  if (process.env.NODE_ENV === 'development') {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();

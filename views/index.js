@@ -9,16 +9,6 @@ export default class Html extends Component {
     const { url, html, initialState, i18nClient, assets } = this.props;
     const meta = DocumentMeta.renderAsHTML();
 
-    const styleArray = process.env.NODE_ENV !== 'production' ? Object.keys(assets.assets).map((style, i) => {
-      return (
-        <style key={style}>
-          {assets.assets[style]['_style']}
-        </style>
-      )
-      // <link href={assets.styles[style]} key={i} media="screen, projection" rel="stylesheet" type="text/css" />,
-    }) : null;
-
-
     return (
         <html lang="utf-8">
           <head>
@@ -28,8 +18,11 @@ export default class Html extends Component {
             <meta name="descripti2efon" content="" />
             <link rel="shortcut icon" href="/asset/img/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-            {styleArray}
-
+            { /* styles (will be present only in production with webpack extract text plugin) */ }
+            {Object.keys(assets.styles).map((style, key) =>
+              <link href={assets.styles[style]} key={key} media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8" />,
+            )}
+            { /* resolves the initial style flash (flicker) on page load in development mode */ }
             { Object.keys(assets.styles).length === 0 ? <link href="/asset/css/main.css" rel="stylesheet" type="text/css" /> : null }
           </head>
           <body>
