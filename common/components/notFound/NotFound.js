@@ -11,7 +11,7 @@ import { meta as metaObj } from '../../constants/meta';
 // import equal from 'deep-equal';
 // import PortfolioItem from './PortfolioItem';
 
-if (!isNode) {  }
+if (!isNode) { require('./notFound.scss'); }
 
 function mapStateToProps() {
   return {};
@@ -41,7 +41,6 @@ class NotFound extends Component {
 
   render() {
     const { t } = this.props;
-    const style = require('./notFound.scss');''
     return (
       <div>
         <DocumentMeta {...this.meta} />
