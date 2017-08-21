@@ -1,91 +1,69 @@
-require('babel-polyfill');
-
-// Webpack config for creating the production bundle.
-var path = require('path');
-var webpack = require('webpack');
-var CleanPlugin = require('clean-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var strip = require('strip-loader');
-
-var projectRootPath = path.resolve(__dirname);
-var assetsPath = path.resolve(projectRootPath, './public/asset');
-
-// https://github.com/halt-hammerzeit/webpack-isomorphic-tools
-var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
-  // devtool: 'source-map',
-  context: path.resolve(__dirname),
   entry: {
-    'main': [
+    app: [
       'babel-polyfill',
       `${path.resolve(__dirname, 'client')}/index`,
-    ]
+    ],
   },
-  // output: {
-  //   path: assetsPath,
-  //   filename: '[name]-[chunkhash].js',
-  //   chunkFilename: '[name]-[chunkhash].js',
-  //   publicPath: '/dist/'
-  // },
   output: {
-    path: assetsPath + '/js/bundle/',
-    filename: 'bundle.js',
-    publicPath: assetsPath + '/js/bundle/',
-    chunkFilename: 'chunk.[name].js',
+    path: path.resolve(__dirname, 'public', 'asset/js/bundle/'),
+    filename: 'bundle.min.js',
+    publicPath: '/asset/js/bundle/',
+    chunkFilename: 'chunk.[chunkhash].min.js',
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!less') },
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!sass') },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
-      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
-    ]
+    rules: [
+      {
+        test: /\.js?$/,
+        loader: 'babel',
+        // include: path.resolve(__dirname, 'common'),
+        exclude: /node_modules/,
+        query:
+        {
+          presets: [['es2015', { modules: false }], 'stage-0', 'react'],
+          plugins: ['transform-decorators-legacy'],
+        },
+      },
+      {
+        test: /\.css|\.scss$/,
+        use: ExtractTextPlugin.extract(
+          {
+            fallback: 'style',
+            use: [
+              'css',
+              'sass',
+              'postcss',
+            ],
+          }
+        ),
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: 'url-loader?limit=8192&name=./asset/img/[name].[ext]',
+      },
+    ],
+    exprContextCritical: false,
   },
-  progress: true,
-  resolve: {
-    // modulesDirectories: [
-    //   'src',
-    //   'node_modules'
-    // ],
-    extensions: ['', '.json', '.js', '.jsx']
+  resolveLoader: {
+    moduleExtensions: ['-loader'],
   },
   plugins: [
-    new CleanPlugin([assetsPath], { root: projectRootPath }),
-
-    // css files from the extract-text-plugin loader
-    new ExtractTextPlugin('../../css/[name].css', {allChunks: true}),
-    // new ExtractTextPlugin('../../css/[name].css'),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      },
-
-      __CLIENT__: true,
-      __SERVER__: false,
-      __DEVELOPMENT__: false,
-      __DEVTOOLS__: false
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': '\'production\'' }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false,
     }),
-
-    // ignore dev config
-    new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
-
-    // optimizations
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
+      beautify: false,
+      comments: false,
     }),
-
-    webpackIsomorphicToolsPlugin
-  ]
+    new ExtractTextPlugin({
+      filename: '../../css/bundle/bundle.min.css',
+      allChunks: false,
+    }),
+  ],
 };

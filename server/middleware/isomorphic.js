@@ -37,11 +37,11 @@ function i18nResource(locale, locales) {
 
 export default function isomorphic(req, res) {
   // if (__DEVELOPMENT__) {
-  if (process.env.NODE_ENV === 'development') {
-    // Do not cache webpack stats: the script file would change since
-    // hot module replacement is enabled in the development env
-    webpackIsomorphicTools.refresh();
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   // Do not cache webpack stats: the script file would change since
+  //   // hot module replacement is enabled in the development env
+  //   // webpackIsomorphicTools.refresh();
+  // }
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.send(500, error.message);
@@ -65,7 +65,7 @@ export default function isomorphic(req, res) {
 
       fetchComponentsData(store.dispatch, components, renderProps.params)
         .then(() => {
-          const assets = webpackIsomorphicTools.assets();
+          // const assets = webpackIsomorphicTools.assets();
           const initView = (
             <I18nextProvider i18n={i18nServer}>
               <Provider store={store}>
@@ -74,7 +74,7 @@ export default function isomorphic(req, res) {
             </I18nextProvider>
           );
           const state = store.getState();
-          return `<!doctype html>\n ${renderToString((<Html {...{ url: req.url, html: initView, initialState: state, i18nClient, assets }} />))}`;
+          return `<!doctype html>\n ${renderToString((<Html {...{ url: req.url, html: initView, initialState: state, i18nClient }} />))}`;
         })
         .then((page) => {
           res.status(200).send(page);

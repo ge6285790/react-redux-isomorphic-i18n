@@ -6,8 +6,12 @@ import React, { Component } from 'react';
 
 export default class Html extends Component {
   render() {
-    const { url, html, initialState, i18nClient, assets } = this.props;
+    const { url, html, initialState, i18nClient } = this.props;
     const meta = DocumentMeta.renderAsHTML();
+    let dev = false;
+    if (process.env.NODE_ENV === 'development') {
+      dev = true;
+    }
 
     return (
         <html lang="utf-8">
@@ -19,17 +23,18 @@ export default class Html extends Component {
             <link rel="shortcut icon" href="/asset/img/favicon.ico" type="image/x-icon" />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
             { /* styles (will be present only in production with webpack extract text plugin) */ }
-            {Object.keys(assets.styles).map((style, key) =>
+            {/* {Object.keys(assets.styles).map((style, key) =>
               <link href={assets.styles[style]} key={key} media="screen, projection" rel="stylesheet" type="text/css" charSet="UTF-8" />,
-            )}
+            )} */}
             { /* resolves the initial style flash (flicker) on page load in development mode */ }
-            { Object.keys(assets.styles).length === 0 ? <link href="/asset/css/main.css" rel="stylesheet" type="text/css" /> : null }
+            { dev ? '' : <link href="/asset/css/main.css" rel="stylesheet" type="text/css" /> }
           </head>
           <body>
             <div id="root">{html}</div>
             <script dangerouslySetInnerHTML={{ __html: `window.$REDUX_STATE=${serialize(JSON.stringify(initialState))};` }} charSet="UTF-8" />
             <script dangerouslySetInnerHTML={{ __html: `window.$i18n=${serialize(i18nClient)};` }} charSet="UTF-8" />
-            <script src={assets.javascript.main} charSet="UTF-8" />
+            {/* <script src={assets.javascript.main} charSet="UTF-8" /> */}
+            { dev ? <script async src="/assets/js/bundle/bundle.js" /> : <script href="/asset/js/bundle/bundle.min.js" /> }
           </body>
         </html>
     );
