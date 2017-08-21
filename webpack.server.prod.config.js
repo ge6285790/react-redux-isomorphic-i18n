@@ -27,21 +27,21 @@ module.exports = {
   },
   module: {
     loaders: [
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
-            }, {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                query: {
-                    presets: [
-                        "es2015", "react", "stage-0"
-                    ],
-                    plugins: ["transform-decorators-legacy"]
-                },
-                exclude: /(node_modules)/
-            }
-        ]
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      }, {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: [
+            'es2015', 'react', 'stage-0',
+          ],
+          plugins: ['transform-decorators-legacy'],
+        },
+        exclude: /(node_modules)/,
+      },
+    ],
   },
   plugins: [
     new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
