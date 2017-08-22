@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import isNode from 'detect-node';
 import DocumentMeta from 'react-document-meta';
 import LazyLoad from 'react-lazyload';

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import DocumentMeta from 'react-document-meta';
 import isNode from 'detect-node';
+import PropTypes from 'prop-types';
 import Menu from '../common_modules/menu/Menu';
 import { meta as metaObj } from '../../constants/meta';
 
@@ -106,8 +107,8 @@ Main.defaultProps = {
 };
 
 Main.propTypes = {
-  t: React.PropTypes.func.isRequired,
-  children: React.PropTypes.object.isRequired,
+  t: PropTypes.func.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

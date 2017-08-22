@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 // import { routerReducer } from 'react-router-redux';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import * as types from '../constants/actionTypes';
 
 const initialItems = {};

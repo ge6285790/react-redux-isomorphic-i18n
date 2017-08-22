@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import Home from '../../../common/components/home/Home';
 
 const coverUrl = 'https://scotch.io/wp-content/uploads/2016/12/6BzHozJUSZW8Rcn4jYIW_transform-images-on-upload-or-on-demand-cloudinary.png-420x210.jpg';
